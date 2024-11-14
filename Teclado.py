@@ -25,7 +25,7 @@ class Teclado:
             return 'BRANCO'
         
         if digito == 'CORRIGE':
-            self.voto = '' #Limpa a string self.voto
+            self.voto = '' # Limpa a string self.voto
 
         else:
             self.voto += digito
