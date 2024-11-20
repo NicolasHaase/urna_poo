@@ -13,10 +13,14 @@ class Documento:
         self.__cpf = ''
         if cpf == '':
             self.criar_cpf()
+        else:
+            self.__cpf = cpf
         if rg == '':
             self.criar_rg()
-    
-    #metodo para criar rg aleatório (o rg não passa por nenhuma verificação, é s)
+        else:
+            self.__rg = rg
+
+    #metodo para criar rg aleatório (o rg não passa por nenhuma verificação)
     def criar_rg(self):
         for digito in range (0, 9):
             i = random.randint(0, 9)
@@ -56,6 +60,7 @@ class Contato:
     __endereco: str
 
     def __init__(self, telefone: str = '', email: str = '', endereco: str = ''):
+
         if telefone == '':
             self.telefone = '123456789'
         else:
@@ -89,10 +94,17 @@ class Pessoa(ABC):
     documento: Documento
     contato: Contato
 
-    def __init__(self, nome: str = '', nacionalidade: str = 'Brasileira', documento: Documento = Documento(), contato: Contato = Contato()):
+    def __init__(self, nome: str = '', nacionalidade: str = 'Brasileira', documento: Documento = None, contato: Contato = None):
+
+        #Verificação feita aqui, pois o documento é criado igual para objetos diferentes caso contrário
+        if documento is None:
+            documento = Documento()
+        if contato is None:
+            contato = Contato()
+
         if nome == '':
-            nomes = ['Arthur Almeida Lima', 'Daniel Santiago Purificação', 'Nicolas Jimenes Haase', 'Pedro Dias Guedes Santos']
-            self.nome = nomes[random.randint(0, 3)]
+            nomes = ['Daniel Santiago Purificação', 'Nicolas Jimenes Haase', 'Pedro Dias Guedes Santos']
+            self.nome = nomes[random.randint(0, 2)]
 
         self.nacionalidade = nacionalidade
         self.documento = documento
