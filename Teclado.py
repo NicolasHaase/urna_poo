@@ -1,7 +1,7 @@
 from typing import Tuple
 
 class Teclado:
-    teclas: Tuple[Tuple]
+    teclas: Tuple
     voto: str
 
     def __init__(self):
@@ -16,13 +16,11 @@ class Teclado:
     
     def clicar(self, digito: str):
         if digito == 'CONFIRMA':
-            voto_final = self.voto
-            self.voto = '' # Limpa a string self.voto
-            return voto_final
+            return digito # RETORNA CONFIRMA
 
         if digito == 'BRANCO':
             self.voto = '' # Limpa a string self.voto
-            return 'BRANCO'
+            return digito # Retorna BRANCO
         
         if digito == 'CORRIGE':
             self.voto = '' # Limpa a string self.voto

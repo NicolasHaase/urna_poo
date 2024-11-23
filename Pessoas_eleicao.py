@@ -1,5 +1,5 @@
-from pygame.display import set_caption
-
+import pickle
+from typing import List
 from Pessoas import *
 
 
@@ -61,6 +61,7 @@ class Mesario(Eleitor):
 #Candidatos podem votar, então vão herdar de eleitor
 class Candidato(Eleitor):
     numero_eleitoral: int
+    __votos: int
 
     def __init__(self, numero_eleitoral: int, titulo: str = '', zona: str = '', secao: str = '', nome: str = '',
     nacionalidade: str = 'Brasileira', documento: Documento() = None, contato: Contato() = None):
@@ -70,6 +71,7 @@ class Candidato(Eleitor):
                          documento=documento, contato=contato)
 
         self.numero_eleitoral = numero_eleitoral
+        self.__votos = 0
 
     def __str__(self):
 
@@ -82,4 +84,23 @@ class Candidato(Eleitor):
 candidato = Candidato (numero_eleitoral=123)
 
 print (candidato)
+
+eleitores: List = [Eleitor(), Eleitor(), Eleitor(), Eleitor(), Eleitor(), Eleitor(), Eleitor(), Eleitor()]
+with open('eleitores', 'wb') as arquivo:
+    pickle.dump(eleitores, arquivo)
 '''
+'''
+with open('eleitores', 'rb') as arquivo:
+    eleitores = pickle.load(arquivo)
+
+for eleitor in eleitores:
+    print (eleitor.titulo)
+    8277 7702 1064
+    3631 7131 8173
+    3460 7183 7656
+    3613 0537 3981
+    3600 1149 4843
+    6843 1665 2454
+    2974 0846 7403
+    1393 7732 5600
+    '''
