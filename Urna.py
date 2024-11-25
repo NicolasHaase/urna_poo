@@ -65,7 +65,10 @@ class InfoUrna(ABC):
     # Método para registrar os votos, pode receber uma variável booleana "branco" para saber se o voto é branco
     def registrar_voto(self, branco:bool = False):
         if not branco:
-            self.votos.append(int(self.teclado.voto)) # se não for voto branco, vai dar um .append no voto do teclado
+            if self.verificar_voto():
+                self.votos.append(int(self.teclado.voto)) # se não for voto branco, vai dar um .append no voto do teclado
+
+            else: self.votos.append(-2)
         else:
             self.votos.append(-1) # Se for voto branco, ele armazena como −1, já que nenhum candidato pode ter o número
             # eleitoral como -1
@@ -260,15 +263,13 @@ class Urna(InfoUrna):
 
                 # Se a "instrução" atual for para votar
                 elif self.passo == 'voto':
-                    if super().verificar_voto():
                         self.passo = 'titulo' # Muda a instrução para 'titulo', então cai no if de cima e verifica se o título é valido
                         som = pygame.mixer.Sound('sons/confirma.wav')
                         som.play()
                         self.registrar_voto() # Registra o voto em self.votos
                         print (f'Voto registrado: {self.teclado.voto}') # Essa linha é apenas para ajudar com debug
                         self.resetar_urna()  # Reseta os parâmetros da urna
-                    else:
-                        self.instrucao.set('Candidato não encontrado')
+
 
                 self.teclado.voto = ''
                 # Limpa o voto caso seja confirmado, independente se o voto foi válido ou não
