@@ -28,7 +28,6 @@ class Eleitor(Pessoa):
         if self.secao == '':
             self.criar_secao()
 
-
     def criar_titulo(self):
         for digito in range (12):
             i = str(random.randint(0, 9))
@@ -55,6 +54,7 @@ class Eleitor(Pessoa):
             f'Seção: {self.secao}\n'
         )
         return info
+
 
 # Nada foi feito com "Mesario", então a classe ficará só com pass, mas já vai existir para possíveis adições futuras
 class Mesario(Eleitor):

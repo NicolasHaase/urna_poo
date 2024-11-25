@@ -134,6 +134,7 @@ class Urna(InfoUrna):
         # background de da cor correspondente a 'COR_TELA'
         estilo.configure('Tela.TLabel', font=('Arial', 30), foreground='black', background=self.cores['COR_TELA'])
         # adiciona o estilo Tela.TLabel com a fonte, a cor do texto e a cor do fundo da tela
+        estilo.configure('Dados.TLabel', font=('Arial', 20), foreground='black', background=self.cores['COR_TELA'])
 
         self.frame_tela = ttk.Frame(self.janela, width=550, height=475, style='Tela.TFrame') # Cria o frame da tela com
         # o estilo Tela.TFrame, criado anteriormente
@@ -150,6 +151,11 @@ class Urna(InfoUrna):
         self.voto.set('') # Zera o voto
         self.label_voto = ttk.Label(self.frame_tela, textvariable=self.voto, style='Tela.TLabel') # Cria o label do voto
         self.label_voto.pack(pady=(50, 0)) # Coloca o voto 50px abaixo da label da instrução
+
+        self.dados = StringVar()
+        self.dados.set('')
+        self.label_dados = ttk.Label(self.frame_tela, textvariable=self.dados, style='Dados.TLabel')
+        self.label_dados.pack(pady=(50, 0))
 
     def iniciar_teclado(self):
 
@@ -253,6 +259,7 @@ class Urna(InfoUrna):
                 # Se a "instrução" atual for para informar o título
                 if self.passo == 'titulo':
                     if super().verificar_titulo(): # Verifica se o título está presente nos eleitores daquela urna
+                        self.mostrar_dados()
                         som = pygame.mixer.Sound('sons/confirma.wav')
                         som.play()
                         self.instrucao.set('Digite seu voto') # Muda a instrução caso o título seja validado
@@ -279,9 +286,25 @@ class Urna(InfoUrna):
 
         self.atualizar_voto()
 
+    def mostrar_dados(self):
+        print ('caiu em mostrar dados')
+        for eleitor in self.eleitores:
+            if eleitor.titulo.replace(' ', '') == self.teclado.voto:
+                print ('eleitor encontrado')
+                info = (
+                    f'Nome: {eleitor.nome}\n'
+                    f'CPF: {eleitor.documento.get_cpf()}\n'
+                    f'RG: {eleitor.documento.get_rg()}\n'
+                        )
+                self.dados.set(info)
+                break
+
+    def limpar_dados(self):
+        self.dados.set('')
 
     def resetar_urna(self):
         self.instrucao.set('FIM')
+        self.limpar_dados()
         self.teclado.voto = ''
         self.janela.after(5000, self.aux) # 5000 ms = 5s
         # O código precisa ser escrito dessa forma porque a janela não "trava" por 5 segundos, ela "agenda" o método para daqui 5 segundos
